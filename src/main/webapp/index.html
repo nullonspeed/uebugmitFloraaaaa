@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>patientennummer bitte eingeben</p>
+<input type="number" id="inputid" onkeydown="showpersonkey(event)">
+
+<button onclick="showperson()">click to show</button>
+
+
+
+<p>auf server laden und ausgeben</p>
+<input id="vornameid">
+<br/>
+<input id="nachnameid">
+<br/>
+<button onclick="hinaufladen()">hinaufladen</button>
+<p>jz geben ma de person aus</p>
+
+<p id="id"></p>
+<p id="vorname"></p>
+<p id = "nachname"></p>
+
+
+
+<script>
+    function hinaufladen(){
+        let xmlhttp = new XMLHttpRequest();
+        let inp1= document.getElementById("vornameid");
+        let inp2= document.getElementById("nachnameid");
+
+        let vn= inp1.value;
+        let nn= inp2.value;
+
+
+
+        xmlhttp.open("GET","http://localhost:8080/uemf-1.0-SNAPSHOT/api/pat/"+vn+"/"+nn,true);
+        xmlhttp.onload = function (){
+            let response = xmlhttp.responseText;
+            let l1 = JSON.parse(response);
+            document.getElementById("id").innerHTML = l1.id;
+            document.getElementById("vorname").innerHTML = l1.vorname;
+            document.getElementById("nachname").innerHTML = l1.nachname;
+        };
+        xmlhttp.send();
+
+    }
+
+
+    function showperson(){
+        let xmlhttp = new XMLHttpRequest();
+        let inp= document.getElementById("inputid");
+        let zahl= inp.value;
+        xmlhttp.open("GET","http://localhost:8080/uemf-1.0-SNAPSHOT/api/pat/"+zahl,true);
+        xmlhttp.onload = function (){
+            let response = xmlhttp.responseText;
+            let l1 = JSON.parse(response);
+            document.getElementById("id").innerHTML = l1.id;
+            document.getElementById("vorname").innerHTML = l1.vorname;
+            document.getElementById("nachname").innerHTML = l1.nachname;
+        };
+        xmlhttp.send();
+
+    }
+    function showpersonkey(event){
+        let keyCode = event.keyCode || event.which;
+        if(keyCode === 13){
+            let inp= document.getElementById("inputid").value;
+
+            let xmlhttp = new XMLHttpRequest();
+
+            xmlhttp.open("GET","http://localhost:8080/uemf-1.0-SNAPSHOT/api/setCookie/"+inp,true);
+
+            xmlhttp.onload=function (){
+
+                location.href="Flora.html";
+            };
+
+            xmlhttp.send();
+
+
+
+        }
+    }
+
+
+</script>
+
+
+</body>
+</html>

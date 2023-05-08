@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>hallo flora</h1>
+<p id="id"></p>
+<p id="vn"></p>
+<p id="nn"></p>
+
+
+
+<script>
+    let xmlhttp = new XMLHttpRequest();
+
+    xmlhttp.open("GET","http://localhost:8080/uemf-1.0-SNAPSHOT/api/consumeCookie",true);
+
+    xmlhttp.onload =function (){
+
+        let resp=  document.cookie;
+        document.getElementById("vn").innerHTML = resp;
+    };
+    xmlhttp.send();
+
+</script>
+
+</body>
+</html>
